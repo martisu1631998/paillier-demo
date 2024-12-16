@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paillier Cryptosystem Interface</title>
+    <script>
+        async function loadKeys() {
+            const response = await fetch('/get_keys');
+            const data = await response.json();
+            document.getElementById('pub_key').value = JSON.stringify(data.pub_key);
+            // document.getElementById('priv_key').value = JSON.stringify(data.priv_key);
+        }
+
+        async function encryptScores() {
+            const scores = document.getElementById('scores').value.split(',').map(Number);
+            const response = await fetch('/encrypt', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ scores })
+            });
+            const data = await response.json();
+            document.getElementById('encrypted_scores').value = JSON.stringify(data.encrypted_scores);
+        }
+
+        async function computeResult() {
+            const encrypted_scores = JSON.parse(document.getElementById('encrypted_scores').value);
+            const response = await fetch('/compute', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ encrypted_scores })
+            });
+            const data = await response.json();
+            document.getElementById('encrypted_result').value = data.encrypted_result;
+        }
+
+        async function decryptResult() {
+            const encrypted_result = parseInt(document.getElementById('encrypted_result').value, 10);
+            const response = await fetch('/decrypt', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ encrypted_result })
+            });
+            const data = await response.json();
+            document.getElementById('decrypted_result').textContent = data.decrypted_result;
+        }
+    </script>
+</head>
+<body onload="loadKeys()">
+    <h1>Paillier Cryptosystem Interface</h1>
+    <label>Public Key:</label>
+    <input id="pub_key" type="text" readonly><br>
+    <!-- <label>Private Key:</label>
+    <input id="priv_key" type="text" readonly><br>--><br>
+
+    <label>Scores (comma-separated):</label>
+    <input id="scores" type="text"><br>
+    <button onclick="encryptScores()">Encrypt Scores</button><br>
+    <label>Encrypted Scores:</label>
+    <input id="encrypted_scores" type="text" readonly><br><br>
+
+    <button onclick="computeResult()">Compute Result</button><br>
+    <label>Encrypted Result:</label>
+    <input id="encrypted_result" type="text" readonly><br><br>
+
+    <button onclick="decryptResult()">Decrypt Result</button><br>
+    <label>Decrypted Result:</label>
+    <input id="decrypted_result" type="text" readonly><br><br>
+<!--    <span id="decrypted_result"></span> -->
+</body>
+</html>

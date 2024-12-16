@@ -138,7 +138,7 @@ class paillier_instance():
         
         return self.c_list
     
-    def decrypt(self, c, verbose=False):
+    def decrypt(self, c, over_10=False, verbose=False):
         """
         Decrypts an individual value c and returns its plaintext m
         """
@@ -152,6 +152,9 @@ class paillier_instance():
             # Compute the plaintext message m = L(c^lambda mod n^2) * mu mod n
             self.result = (L_of_clambda * self.mu) % self.n
             
+            if over_10:
+                return round(self.result*0.1, 2)
+
             return self.result
 
         except Exception as e:

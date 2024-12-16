@@ -14,7 +14,7 @@ paillier = paillier_instance(verbose=True)
 @app.route("/")
 def index():
     """Render the HTML interface."""
-    return render_template("index.html")
+    return render_template("index_old.html")
 
 @app.route("/get_keys", methods=["GET"])
 def get_keys():
@@ -53,7 +53,7 @@ def decrypt_result():
     try:
         data = request.json
         encrypted_result = data.get("encrypted_result")  # Integer
-        decrypted_result = paillier.decrypt(encrypted_result, over_10=True, verbose=True)
+        decrypted_result = paillier.decrypt(encrypted_result, verbose=True)
         return jsonify({"decrypted_result": decrypted_result})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
