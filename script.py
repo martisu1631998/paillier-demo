@@ -157,7 +157,7 @@ class paillier_instance():
         except Exception as e:
             raise ValueError("Decryption failed. Ensure inputs are valid.") from e
 
-def crunch(c_list, pub_key, verbose=False):
+def crunch(c_list, pub_key, over_10=False,verbose=False):
     """
     This function is meant to be used by the outsider agent.
     It performs the general encrypted score calculation from the partial encrypted scores.
@@ -179,8 +179,13 @@ def crunch(c_list, pub_key, verbose=False):
     # Step 2: Add all elements
     #   following the equivalence D(E(m1,r1)*E(m2,r2) mod n^2) = m1*m2 mod n
     c_result = (weighted[0] * weighted[1] * weighted[2] * weighted[3]) % n**2
+    
     if verbose:
         print("Addition result:", c_result)
+
+    if over_10:
+        return round(c_result*0.1, 2)
+    
     return c_result
 
     
