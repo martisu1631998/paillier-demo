@@ -14,14 +14,14 @@ paillier = paillier_instance(verbose=True)
 @app.route("/")
 def index():
     """Render the HTML interface."""
-    return render_template("index2.html")
+    return render_template("index.html")
 
 @app.route("/get_keys", methods=["GET"])
 def get_keys():
-    """Return the generated public and private keys."""
+    """Return the generated public and private keys. NOT PRIVATE!"""
     return jsonify({
         "pub_key": paillier.get_pub_key(),
-        "priv_key": paillier.priv_key
+        # "priv_key": paillier.priv_key
     })
 
 @app.route("/encrypt", methods=["POST"])

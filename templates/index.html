@@ -9,7 +9,7 @@
             const response = await fetch('/get_keys');
             const data = await response.json();
             document.getElementById('pub_key').value = JSON.stringify(data.pub_key);
-            document.getElementById('priv_key').value = JSON.stringify(data.priv_key);
+            // document.getElementById('priv_key').value = JSON.stringify(data.priv_key);
         }
 
         async function encryptScores() {
@@ -50,8 +50,8 @@
     <h1>Paillier Cryptosystem Interface</h1>
     <label>Public Key:</label>
     <input id="pub_key" type="text" readonly><br>
-    <label>Private Key:</label>
-    <input id="priv_key" type="text" readonly><br><br>
+    <!-- <label>Private Key:</label>
+    <input id="priv_key" type="text" readonly><br>--><br>
 
     <label>Scores (comma-separated):</label>
     <input id="scores" type="text"><br>
