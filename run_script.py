@@ -14,7 +14,7 @@ paillier = paillier_instance(verbose=True)
 @app.route("/")
 def index():
     """Render the HTML interface."""
-    return render_template("index.html")
+    return render_template("index2.html")
 
 @app.route("/get_keys", methods=["GET"])
 def get_keys():
