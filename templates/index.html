@@ -203,16 +203,48 @@
         <h2>About the Paillier Cryptosystem</h2>
         <div class="info-section">
             <h3>1. Key Generation</h3>
+            <h3>1. Key Generation</h3>
             <p>
-                Two large prime numbers <strong>p</strong> and <strong>q</strong> are chosen randomly.<br>
-                The public key modulus <strong>n</strong> is calculated as:
+                Two large prime numbers <strong>p</strong> and <strong>q</strong> are chosen randomly and independently of each other such that:
                 <br>
+                <strong>gcd(pq, (p - 1)(q - 1)) = 1</strong><br>
+                This property is assured if both primes are of equal length.
+            </p>
+            <p>
+                The public key modulus <strong>n</strong> is calculated as:<br>
                 <strong>n = p &times; q</strong>
             </p>
             <p>
                 The private key <strong>&lambda;</strong> is computed as:<br>
-                <strong>&lambda; = lcm(p - 1, q - 1)</strong>
+                <strong>&lambda; = lcm(p - 1, q - 1)</strong>, where lcm is the Least Common Multiple.
             </p>
+            <p>
+                A random integer <strong>g</strong> is selected such that:<br>
+                <strong>g &in; &#8484;<sub>n²</sub><sup>*</sup></strong><br>
+                Ensure that <strong>n</strong> divides the order of <strong>g</strong> by checking the existence of the following modular multiplicative inverse:
+            </p>
+            <p>
+                <strong>&mu; = (L(g<sup>&lambda;</sup> mod n²))<sup>-1</sup> mod n</strong><br>
+                where the function <strong>L</strong> is defined as:<br>
+                <strong>L(x) = (x - 1) / n</strong>
+            </p>
+            <p>
+                Note: The notation <strong>a / b</strong> does not denote modular multiplication but rather the quotient of <strong>a</strong> divided by <strong>b</strong>, i.e., the largest integer value <strong>v &ge; 0</strong> that satisfies <strong>a &ge; vb</strong>.
+            </p>
+            <p>
+                The public (encryption) key is: <strong>(n, g)</strong><br>
+                The private (decryption) key is: <strong>(&lambda;, &mu;)</strong>
+            </p>
+            <p>
+                <strong>Alternative Simplified Variant:</strong><br>
+                If <strong>p</strong> and <strong>q</strong> are of equivalent length, the following simplification can be used:<br>
+                <strong>g = n + 1</strong>, <strong>&lambda; = &phi;(n)</strong>, and <strong>&mu; = &phi;(n)<sup>-1</sup> mod n</strong>,<br>
+                where <strong>&phi;(n) = (p - 1)(q - 1)</strong>.
+            </p>
+            <p>
+                The simpler variant is recommended for implementation purposes because, in the general form, the calculation time of <strong>&mu;</strong> can be very high with sufficiently large primes <strong>p</strong> and <strong>q</strong>.
+            </p>
+
     
             <h3>2. Encryption</h3>
             <p>
